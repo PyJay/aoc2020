@@ -1,6 +1,7 @@
-from day02 import check_password, parse_text
+from day02 import check_password, parse_text, check_password_two
 
-def test_basic_case():
+
+def test_part_one():
     policy = (1, 3, "a")
     password_one = "abcd"
     password_two = "abacd"
@@ -12,6 +13,18 @@ def test_basic_case():
     assert check_password(*policy, password_three) == True
     assert check_password(*policy, password_four) == False
     assert check_password(*policy, password_zero) == False
+
+
+def test_part_two():
+    policy = (1, 3, "a")
+    password_one = "abcd"  # valid
+    password_two = "abacd"  # invalid
+    password_three = "abbacd"  # valid
+    password_four = "bbdada"  # invalid
+    assert check_password_two(*policy, password_one) == True
+    assert check_password_two(*policy, password_two) == False
+    assert check_password_two(*policy, password_three) == True
+    assert check_password_two(*policy, password_four) == False
 
 
 def test_parse_text():
