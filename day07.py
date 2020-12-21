@@ -1,49 +1,48 @@
 import re
+from collections import deque
 
 
 def create_mapping(fname):
     with open(fname) as f:
         rules = f.read().splitlines()
     mapping = {}
-    parent_pattern = re.compile('(.+) bags')
-    child_pattern = re.compile('(\d+) (.+) bag[s]?|no other bag.')
+    pattern = re.compile('(.+) bags contain|(\d+) (.+?) bag')
     for r in rules:
-        # res = re.match(pattern, r)
-        parent_text, children_text = r.split('contain')
-        result = re.match(parent_pattern, parent_text)
-        parent = result.groups()[0]
-        children_texts = children_text.split(',')
-        children_texts = [c.strip() for c in children_texts]
-        children = {}
-        for c in children_texts:
-            result = re.match(child_pattern, c)
-            groups = result.groups()
-            if not groups[1]:
-                children = {}
-            else:
-                children[groups[1]] = groups[0]
+        matches = re.findall(pattern, r)
+        parent, *children = matches
+        parent = parent[0]
+        children = {child[2]: int(child[1]) for child in children}
         mapping[parent] = children
     return mapping
 
 
-def search_parents(parent_mapping, node):
-    counter = 0
+def search_parents(mapping, node):
+    all_parents = set()
+    visited = set()
+    to_check = deque([node])
+    while to_check:
+        child = to_check.pop()
+        parents = []
+        for bag in mapping:
+            if child not in visited and child in mapping[bag]:
+                parents.append(bag)
+        to_check.extendleft(parents)
+        all_parents.update(parents)
+    return all_parents
 
-    def exists_in_bag(bag, node):
-        bag = parent_mapping[bag]
-        if node in bag:
-            return True
-        for child in bag:
-            return exists_in_bag(child, node)
-        return False
-    
-    for bag in parent_mapping:
-        if exists_in_bag(bag, node):
-            counter += 1
+
+def total_bags(mapping, bag):
+    counter = 1 # the bag itself
+    for inside_bag, number in mapping[bag].items():
+        if not mapping[inside_bag]:
+            counter += number
+        else:
+            inside_bag_count = (number * total_bags(mapping, inside_bag))
+            counter += inside_bag_count
     return counter
 
 
 if __name__ == "__main__":
     res = create_mapping('day07.txt')
-    breakpoint()
-    print(search_parents(res, 'shiny gold'))
+    # print(len(search_parents(res, 'shiny gold')))
+    print(total_bags(res, 'shiny gold')- 1  )
