@@ -20,7 +20,7 @@ posh bronze bags contain 1 dotted green bag.
 shiny cyan bags contain 5 dim maroon bags, 2 light orange bags.
 vibrant silver bags contain 1 drab coral bag, 2 dull olive bags, 3 clear brown bags, 3 bright violet bags.
 mirrored red bags contain 1 dim beige bag, 5 vibrant salmon bags, 5 muted bronze bags.
-striped bronze bags contain 3 clear cyan bags, 4 wavy purple bags, 1 pale orange bag.
+striped bronze bags contain 3 clear cyan bags, 4 wavy purple bags, 1 pale orange bag. 	 		
 pale gold bags contain 5 light cyan bags, 2 dim gray bags.
 striped purple bags contain 3 clear gray bags, 3 plaid tan bags.
 dotted orange bags contain 3 dark maroon bags, 1 light orange bag, 3 light lime bags.
